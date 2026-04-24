@@ -1,0 +1,42 @@
+.registerpage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    .form-container{
+        background: #323030;
+        padding: 1rem;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap:1rem;
+      
+        .form-group{
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+           
+            
+            input{
+                height: 25px;
+                color: #ffffff;
+                padding:  0.3rem;
+                font-size: 0.7rem;   
+                border: none;
+                outline: none;
+                border-radius: 5px;
+                width: 220px;
+            }
+        }
+ p{
+            font-size: 0.9rem;
+             a{
+            
+                color: antiquewhite;
+                text-decoration: none;
+                
+           
+        }
+         }
+    }
+}

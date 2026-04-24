@@ -12,8 +12,12 @@
   "dependencies": {
     "@mediapipe/camera_utils": "^0.3.1675466862",
     "@mediapipe/face_detection": "^0.4.1646425229",
+    "axios": "^1.15.2",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "react-router": "^7.14.2",
+    "react-router-dom": "^7.14.2",
+    "sass": "^1.99.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

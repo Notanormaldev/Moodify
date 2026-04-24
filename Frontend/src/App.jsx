@@ -1,9 +1,7 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import FaceExpression from './features/Expression/components/FaceExpression'
-
+import { RouterProvider } from "react-router-dom"
+import { router } from "./app.routes"
+import './features/Shared/styles/global.scss'
+import { AuthProvider } from "./features/auth/auth.context"
 
 
 
@@ -12,7 +10,9 @@ function App() {
 
   return (
     <>
-     <FaceExpression/>
+    <AuthProvider>
+     <RouterProvider router={router}/>
+    </AuthProvider>
     </>
   )
 }

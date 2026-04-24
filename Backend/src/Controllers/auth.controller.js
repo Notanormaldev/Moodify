@@ -106,7 +106,7 @@ async function logout(req,res){
     // token
   // })
 
-  await redis.set(token,Date.now().toString())
+  await redis.set(token,Date.now().toString(),'EX',3600)
   
 
   return res.status(200).json({

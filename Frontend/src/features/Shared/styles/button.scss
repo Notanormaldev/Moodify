@@ -1,0 +1,12 @@
+button{
+    background: #b7054f;
+    padding: 0.5rem 0.6rem;
+    border: none;
+    outline: none;
+    color: aliceblue;
+    border-radius: 10px;
+    margin-top: 1.4rem;
+    &:active{
+      scale: 0.90;
+    }
+}
