@@ -4,6 +4,8 @@ import '../styles/register.scss'
 import { Link, useNavigate } from 'react-router'
 import { useState } from 'react'
 import { useauth } from '../hooks/useAuth'
+import Text from '../components/Text'
+import Gif from '../components/Gif'
 
 function Register() {
    
@@ -22,6 +24,8 @@ function Register() {
 
   return (
     <main className="registerpage">
+      <Text/>
+      <Gif/>
         <div className="form-container">
             <h1>Register</h1>
             <form onSubmit={handlesubmit} >

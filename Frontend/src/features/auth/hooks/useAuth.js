@@ -38,9 +38,7 @@ export const useauth =()=>{
         
     }
 
-    useEffect(()=>{
-     handlegetme()
-    },[])
+
   
     return({
         handlegetme,handlelogin,handlelogout,handleregister,user,loading

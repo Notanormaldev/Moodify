@@ -7,7 +7,7 @@ const moodBackgrounds = {
   natural: "linear-gradient(135deg, #163f91 0%, #111827 40%, #0a101e 70%, #e2398b 100%)",
   happy: "linear-gradient(135deg, #4c0b60 0%, #1f2937 30%, #ac44a5 65%, #02040b 100%)",
   sad: "linear-gradient(135deg, #090b10 0%, #111219 35%, #1a2431 70%, #06090f 100%)",
-  surprised: "linear-gradient(135deg, #111827 0%, #0f172a 30%, #111827 70%, #02040b 100%)",
+  surprised: "linear-gradient(135deg, #942d48 0%, #0f172a 30%, #111827 70%, #0d423a 100%)",
 };
 
 const getMoodBackground = (mood) => moodBackgrounds[mood] || moodBackgrounds.natural;

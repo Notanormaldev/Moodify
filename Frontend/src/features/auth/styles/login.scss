@@ -1,15 +1,84 @@
 .loginpage{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    .txt{
+        font-size: 2rem;
+        color: #fff;
+        background: url(https://i.giphy.com/fUQ4rhUZJYiQsas6WD.webp);
+        font-weight: 900;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        letter-spacing: 5px;
+        background-size: contain;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    
+    }
+    .gif1{
+        position: absolute;
+        left: 90%;
+        top:50%;
+        background: url(https://media.tenor.com/qY_nWadrincAAAAi/pengu-pudgy.gif);
+        width: 150px;
+        height: 300px;
+        border-radius: 20px;
+        background-position: cover;
+        animation: blink 4s infinite;
+      }
+       .gif2{
+        position: absolute;
+        left: 28%;
+        top:30%;
+        background: url(https://media.tenor.com/8DofRIfWaSIAAAAi/tkthao219-bubududu.gif);
+        width: 200px;
+        height: 200px;
+        border-radius: 20px;
+        animation: blink 5s infinite;
+      }
+       .gif3{
+        position: absolute;
+        left: 10%;
+        top:0%;
+        background: url(https://media.tenor.com/vb5hCnYZ6uoAAAAi/mood-off.gif);
+        background-size: cover;
+        width: 200px;
+        height: 200px;
+        transform: rotate(180deg);
+        border-radius: 20px;
+        animation: blink 3s infinite;
+      }
+     .gif4{
+        position: absolute;
+        left: 0%;
+        top:72%;
+        background: url(https://media.tenor.com/iVfrnHDoEwEAAAAi/dudu-waiting-waiting-for-you.gif);
+        background-size: cover;
+        width: 200px;
+        height: 200px;
+        border-radius: 20px;
+        
+      }
+  
+
+
+    @keyframes blink {
+  0%   { opacity: 1; }   // visible
+  50%  { opacity: 0; }   // gayab
+  100% { opacity: 1;display: none; }   // wapis
+}
+
+
     .form-container{
+        margin-top: 1rem;
         background: #323030;
         padding: 1rem;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         gap:1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       
         .form-group{
             display: flex;
@@ -25,7 +94,7 @@
                 border: none;
                 outline: none;
                 border-radius: 5px;
-                width: 220px;
+                width: 250px;
             }
         }
          p{

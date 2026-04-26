@@ -10,9 +10,7 @@ const api = axios.create({
 export   async function login({username,email,password}){
     const res = await api.post('/login',{
         username,email,password
-    })
-   
-    
+    }) 
     return res.data
 }
 

@@ -4,6 +4,8 @@ import Formgroup from '../components/Formgroup'
 import { Link, useNavigate } from 'react-router'
 import { useauth } from '../hooks/useAuth'
 import { useState } from 'react'
+import Text from '../components/Text'
+import Gif from '../components/Gif'
 function Login() {
   const {loading,handlelogin}=useauth()
 
@@ -19,7 +21,10 @@ function Login() {
 
 
   return (
-    <main className="loginpage">
+
+  <main className="loginpage">
+    <Text/>
+    <Gif/>
         <div className="form-container">
             <h1>Login</h1>
             <form onSubmit={handlesubmit}>
@@ -31,6 +36,8 @@ function Login() {
               <p>Don't have a account ? <Link to='/register'>Register here</Link></p>
         </div>
     </main>
+ 
+    
   )
 }
 
