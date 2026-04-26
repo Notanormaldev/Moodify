@@ -1,21 +1,28 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { detectMood } from "../../utils/util";
+import { Songcontext } from "../../home/song.context";
+
 export default function FaceExpression() {
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const [mood, setMood] = useState("Click button to detect mood");
-  const lastResultRef = useRef(null); // ✅ latest landmarks store karta rehta hai
+  const faceMeshRef = useRef(null);
+  const cameraRef = useRef(null);
+  const [rawMood, setRawMood] = useState(null);
+  const [cameraReady, setCameraReady] = useState(false);
+  const [permissionError, setPermissionError] = useState("");
+  const [detectionStatus, setDetectionStatus] = useState("");
+  const lastResultRef = useRef(null);
+  const { handleSongGet } = useContext(Songcontext);
 
   useEffect(() => {
     if (!videoRef.current) return;
 
     const FaceMesh = window.FaceMesh;
-    const Camera = window.Camera;
-
-    if (!FaceMesh || !Camera) {
-      console.error("MediaPipe CDN not loaded yet");
+    if (!FaceMesh) {
+      console.error("MediaPipe FaceMesh not loaded yet");
       return;
     }
+
+    videoRef.current.muted = true;
 
     const faceMesh = new FaceMesh({
       locateFile: (file) =>
@@ -29,54 +36,173 @@ export default function FaceExpression() {
       minTrackingConfidence: 0.5,
     });
 
-    const getDistance = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
-
     faceMesh.onResults((results) => {
-      if (!canvasRef.current || !results.image) return;
-
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-      canvas.width = 640;
-      canvas.height = 480;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
-
       if (!results.multiFaceLandmarks || results.multiFaceLandmarks.length === 0) {
-        lastResultRef.current = null; // no face
+        lastResultRef.current = null;
+        setDetectionStatus("No face detected yet.");
         return;
       }
 
-      // ✅ Sirf store karo, setMood mat karo
       lastResultRef.current = results.multiFaceLandmarks[0];
+      setDetectionStatus("Face detected. Ready to play.");
     });
+
+    faceMeshRef.current = faceMesh;
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (cameraRef.current) {
+        cameraRef.current.stop();
+      }
+    };
+  }, []);
+
+  const formatMoodText = (value) => {
+    if (!value) return "Play song based on your mood";
+    const cleaned = value.replace(/^[^a-zA-Z0-9]*(.*)$/s, "$1").trim();
+    const mood = cleaned.replace(/^(you are|you|mood is)\s*/i, "").trim();
+    return mood ? "Mood detected" : "Play song based on your mood";
+  };
+
+  const normalizeMood = (value) => {
+    if (!value) return "natural";
+    const normalized = value.toLowerCase();
+    if (normalized.includes("happy")) return "happy";
+    if (normalized.includes("sad")) return "sad";
+    if (normalized.includes("surprised")) return "surprised";
+    return "natural";
+  };
+
+  const initCamera = async () => {
+    if (cameraReady) return true;
+    if (!videoRef.current) return false;
+
+    const FaceMesh = faceMeshRef.current;
+    const Camera = window.Camera;
+
+    if (!FaceMesh || !Camera) {
+      setPermissionError("Camera setup failed. Please refresh the page.");
+      return false;
+    }
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      setPermissionError("Your browser does not support camera access.");
+      return false;
+    }
+
+    let stream;
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+    } catch (error) {
+      setPermissionError("Camera permission required to detect mood.");
+      return false;
+    }
+
+    videoRef.current.srcObject = stream;
+    try {
+      await videoRef.current.play();
+    } catch (error) {
+      console.warn("Video play failed", error);
+    }
 
     const camera = new Camera(videoRef.current, {
       onFrame: async () => {
-        if (videoRef.current) await faceMesh.send({ image: videoRef.current });
+        if (videoRef.current) await FaceMesh.send({ image: videoRef.current });
       },
-      width: 640,
-      height: 480,
+      width: 320,
+      height: 240,
     });
 
-    camera.start();
-    return () => camera.stop();
-  }, []);
+    cameraRef.current = camera;
+    try {
+      await camera.start();
+    } catch (error) {
+      setPermissionError("Failed to start camera. Please allow access.");
+      return false;
+    }
 
-  // ✅ Ye function sirf button click pe chalega
+    setCameraReady(true);
+    setDetectionStatus("Looking for your face...");
+    return true;
+  };
+
+  const handlePlayClick = async () => {
+    setPermissionError("");
+    const ready = await initCamera();
+    if (!ready) return;
+
+    let attempts = 0;
+    while (!lastResultRef.current && attempts < 8) {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      attempts += 1;
+    }
+
+    if (!lastResultRef.current) {
+      setPermissionError("No face detected yet. Move closer to the camera and try again.");
+      return;
+    }
+
+    const result = detectMood(lastResultRef.current);
+    const moodKey = normalizeMood(result);
+    setRawMood(result);
+
+    if (handleSongGet) {
+      await handleSongGet(moodKey);
+    }
+  };
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2>Emotion Detection (MediaPipe)</h2>
-      <h1>{mood}</h1>
-      <video ref={videoRef} autoPlay playsInline style={{ display: "none" }} />
-      <canvas ref={canvasRef} style={{ border: "2px solid black" }} />
-      <br />
-      {/* ✅ Ye button apne kisi bhi component mein le ja sako */}
-      <button   onClick={() => {
-                const result = detectMood(lastResultRef.current);
-                setMood(result);
-  }} style={{ marginTop: "16px", padding: "10px 24px", fontSize: "16px" }}>
-        📸 Detect My Mood
+    <div
+      style={{
+        textAlign: "center",
+        width: "100%",
+        maxWidth: 560,
+        margin: "0 auto",
+        padding: 18,
+        borderRadius: 22,
+        height: 200,
+        background: "rgba(12, 12, 12, 0.78)",
+        boxShadow: "0 14px 34px rgba(0,0,0,0.18)",
+      }}
+    >
+      <h1 style={{ margin: 0, fontSize: 30, color: "#fff", lineHeight: 1.15 }}>
+        {formatMoodText(rawMood)}
+      </h1>
+      {permissionError && (
+        <p style={{ marginTop: 12, color: "#ff7aa6", fontSize: 14 }}>
+          {permissionError}
+        </p>
+      )}
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        muted
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          opacity: 0,
+          left: -9999,
+          top: -9999,
+        }}
+      />
+      <button
+        onClick={handlePlayClick}
+        style={{
+          marginTop: 22,
+          padding: "12px 32px",
+          fontSize: 16,
+          borderRadius: 999,
+          border: "none",
+          background: "#ff2b82",
+          color: "#fff",
+          cursor: "pointer",
+          transition: "transform 120ms ease",
+        }}
+      >
+        Play Mood Song
       </button>
     </div>
   );

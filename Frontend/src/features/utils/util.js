@@ -49,15 +49,15 @@
 
     const best = Object.entries(scores).sort((a, b) => b[1] - a[1])[0];
     const moodMap = {
-      happy:    "😄 Happy",
-      sad:      "😢 Sad",
-      surprise: "😲 Surprise",
-      neutral:  "😐 Neutral",
+      happy:    "happy",
+      sad:      "sad",
+      surprise: "surprised",
+      neutral:  "natural",
     };
 
-    const detectedMood = isSurprise ? "😲 Surprise"
+    const detectedMood = isSurprise ? "surprised"
       : best[1] >= 2 ? moodMap[best[0]]
-      : "😐 Neutral";
+      : "natural";
 
     return   detectedMood   ;
     // console.log("Scores:", scores, "| cornerLift:", cornerLift.toFixed(5), "| eyeOpen:", eyeOpen.toFixed(4));
