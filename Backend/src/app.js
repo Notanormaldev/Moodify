@@ -8,7 +8,7 @@ const app = express()
 app.use(express.json())
 app.use(cookie())
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:'https://moodify-front-dhuh.onrender.com',
     credentials:true
 }))
 app.use('/api/auth',UserRoute)
