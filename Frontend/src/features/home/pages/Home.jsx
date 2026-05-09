@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import FaceExpression from '../../Expression/components/FaceExpression'
 import Player from '../components/Player'
-import { Songcontext } from '../Song.context.jsx'
+import { Songcontext } from '../Song.context'
 import { useauth } from '../../auth/hooks/useAuth'
 import { RiLogoutCircleRLine } from 'react-icons/ri'
 
