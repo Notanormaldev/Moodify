@@ -14,9 +14,12 @@ export const AuthProvider =({children})=>{
         getme().then(data=>{
             setuser(data.user)
             setloading(false)
-        }).catch(err=>{
-            setloading(false)
-        })
+        }) .catch(err => {
+      setuser(null)
+   })
+   .finally(() => {
+      setloading(false)
+   })
      },[])
 
     return(
