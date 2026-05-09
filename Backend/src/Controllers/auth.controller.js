@@ -38,7 +38,11 @@ async function register(req,res){
      },process.env.JWT,{expiresIn:'1h'})
 
 
-    res.cookie('token',token)
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None"
+})
 
     return res.status(200).json({
         msg:'user created',
@@ -77,7 +81,11 @@ async function login(req,res){
   },process.env.JWT,{
     expiresIn:"1h"
   })
-  res.cookie('token',token)
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None"
+})
 
   return res.status(200).json(
     {
@@ -100,7 +108,11 @@ async function getme(req,res){
 async function logout(req,res){
   const token = req.cookies.token
   
-  res.clearCookie('token')
+ res.clearCookie("token", {
+  httpOnly: true,
+  secure: true,
+  sameSite: "None"
+})
 
   // await blacklistmodel.create({
     // token
