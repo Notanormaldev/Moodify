@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { detectMood } from "../../utils/util";
-import { Songcontext } from "../../home/song.context";
+import { Songcontext } from "../../home/Song.context";
 
 export default function FaceExpression() {
   const videoRef = useRef(null);
