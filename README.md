@@ -29,7 +29,7 @@ Whether you're happy, sad, energetic, relaxed, or emotional — Moodify adapts t
 
 ## Authentication Experience
 
-![Register](./screenshots/register.png)
+![Register](./Screenshots/register.png)
 
 ---
 
