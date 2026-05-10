@@ -4,7 +4,7 @@
 
 <div align="center">
 
-![Moodify Banner](./screenshots/image.png)
+![Moodify Banner](./Screenshots/image.png)
 
 ### A premium AI-powered mood based music experience built with MERN Stack.
 
@@ -35,7 +35,7 @@ Whether you're happy, sad, energetic, relaxed, or emotional — Moodify adapts t
 
 ## Feed & Music Experience
 
-![Feed](./screenshots/image.png)
+![Feed](./Screenshots/image.png)
 
 ---
 
