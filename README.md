@@ -33,11 +33,11 @@
 <table>
 <tr>
 <td width="50%">
-<img src="https://raw.githubusercontent.com/Notanormaldev/Moodify/main/Screenshots/1.register.png" alt="Register Page" width="100%"/>
+<img src="https://raw.githubusercontent.com/Notanormaldev/Moodify/main/Screenshots/register.png" alt="Register Page" width="100%"/>
 <p align="center"><sub>Register / Login</sub></p>
 </td>
 <td width="50%">
-<img src="https://raw.githubusercontent.com/Notanormaldev/Moodify/main/Screenshots/2.image.png" alt="Music Player" width="100%"/>
+<img src="https://raw.githubusercontent.com/Notanormaldev/Moodify/main/Screenshots/image.png" alt="Music Player" width="100%"/>
 <p align="center"><sub>Music Player — Mood Detected</sub></p>
 </td>
 </tr>
